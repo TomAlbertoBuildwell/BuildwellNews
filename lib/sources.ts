@@ -3,6 +3,7 @@ export interface Source {
   organisation: string
   description: string
   website: string
+  rssUrl?: string
   rssAvailable: "Yes" | "No" | "Partial"
   category: "primary" | "secondary" | "regulatory" | "technical"
   trustScore: number
@@ -12,17 +13,19 @@ export const constructionSources: Source[] = [
   {
     id: "surveyor-magazine",
     organisation: "Surveyor Magazine",
-    description: "Weekly technical reporting on planning, highways, environment and county works",
-    website: "http://www.surveyormagazine.com",
+    description: "Professional surveying insights and regulatory updates for construction",
+    website: "https://www.surveyormagazine.co.uk",
+    rssUrl: "https://www.surveyormagazine.co.uk/feed/",
     rssAvailable: "Yes",
     category: "technical",
-    trustScore: 85,
+    trustScore: 88,
   },
   {
     id: "building",
     organisation: "Building",
     description: "Leading UK construction news with deep project, policy and regulatory analysis",
     website: "https://www.building.co.uk",
+    rssUrl: "https://www.building.co.uk/feed",
     rssAvailable: "Yes",
     category: "primary",
     trustScore: 95,
@@ -30,26 +33,29 @@ export const constructionSources: Source[] = [
   {
     id: "construction-enquirer",
     organisation: "Construction Enquirer",
-    description: "Project updates, tenders, and market shifts",
+    description: "Breaking construction industry news and market intelligence",
     website: "https://www.constructionenquirer.com",
+    rssUrl: "https://www.constructionenquirer.com/feed/",
+    rssAvailable: "Yes",
+    category: "primary",
+    trustScore: 92,
+  },
+  {
+    id: "the-construction-index",
+    organisation: "The Construction Index",
+    description: "Comprehensive UK construction project news and tenders",
+    website: "https://www.theconstructionindex.co.uk",
+    rssUrl: "https://www.theconstructionindex.co.uk/news/rss",
     rssAvailable: "Yes",
     category: "primary",
     trustScore: 90,
-  },
-  {
-    id: "construction-index",
-    organisation: "The Construction Index",
-    description: "Live tenders, new projects, technical and product news",
-    website: "https://www.theconstructionindex.co.uk",
-    rssAvailable: "Yes",
-    category: "primary",
-    trustScore: 88,
   },
   {
     id: "planning-resource",
     organisation: "Planning Resource",
     description: "UK planning system insights and policy updates",
     website: "https://www.planningresource.co.uk",
+    rssUrl: "https://www.planningresource.co.uk/rss",
     rssAvailable: "Yes",
     category: "regulatory",
     trustScore: 92,
@@ -57,8 +63,9 @@ export const constructionSources: Source[] = [
   {
     id: "inside-housing",
     organisation: "Inside Housing",
-    description: "Social housing policy and construction updates",
+    description: "Social housing policy and construction updates", 
     website: "https://www.insidehousing.co.uk",
+    rssUrl: "https://www.insidehousing.co.uk/rss/news",
     rssAvailable: "Yes",
     category: "secondary",
     trustScore: 87,
@@ -66,83 +73,92 @@ export const constructionSources: Source[] = [
   {
     id: "construction-management",
     organisation: "Construction Management (CIOB)",
-    description: "Technical and project case studies from the CIOB community",
-    website: "https://constructionmanagement.co.uk",
+    description: "Professional construction management insights from CIOB",
+    website: "https://www.constructionmanagermagazine.com",
+    rssUrl: "https://www.constructionmanagermagazine.com/feed/",
     rssAvailable: "Yes",
     category: "technical",
-    trustScore: 93,
+    trustScore: 94,
   },
   {
     id: "infrastructure-intelligence",
     organisation: "Infrastructure Intelligence",
-    description: "Engineering and infrastructure sector news",
+    description: "UK infrastructure policy, projects and investment analysis",
     website: "https://www.infrastructure-intelligence.com",
-    rssAvailable: "Yes",
-    category: "technical",
+    rssUrl: "https://www.infrastructure-intelligence.com/rss/news",
+    rssAvailable: "Partial",
+    category: "secondary",
     trustScore: 89,
   },
   {
     id: "architects-journal",
     organisation: "Architects' Journal",
-    description: "Design, architecture practice news, and building regulations",
+    description: "Architecture and design news with construction industry insights",
     website: "https://www.architectsjournal.co.uk",
+    rssUrl: "https://www.architectsjournal.co.uk/rss/all",
     rssAvailable: "Yes",
-    category: "technical",
-    trustScore: 91,
+    category: "secondary",
+    trustScore: 86,
   },
   {
     id: "construction-news",
     organisation: "Construction News",
-    description: "UK-wide industry updates on projects, contracts and regulation changes",
+    description: "Leading weekly construction news covering major UK projects",
     website: "https://www.constructionnews.co.uk",
-    rssAvailable: "No",
+    rssUrl: "https://www.constructionnews.co.uk/rss",
+    rssAvailable: "Yes",
     category: "primary",
-    trustScore: 94,
+    trustScore: 93,
   },
   {
     id: "new-civil-engineer",
     organisation: "New Civil Engineer (NCE)",
-    description: "Specialist infrastructure and civil engineering news from ICE",
+    description: "Civil engineering projects, infrastructure and technical innovation",
     website: "https://www.newcivilengineer.com",
+    rssUrl: "https://www.newcivilengineer.com/rss",
     rssAvailable: "Yes",
-    category: "technical",
-    trustScore: 90,
+    category: "primary",
+    trustScore: 95,
   },
   {
     id: "riba-journal",
     organisation: "RIBA Journal",
-    description: "Practice-led industry updates including regulatory change and design innovation",
+    description: "Architecture profession news from Royal Institute of British Architects",
     website: "https://www.ribaj.com",
+    rssUrl: "https://www.ribaj.com/rss",
     rssAvailable: "Yes",
-    category: "technical",
-    trustScore: 88,
+    category: "secondary",
+    trustScore: 85,
   },
   {
     id: "building-design",
     organisation: "Building Design (BD)",
-    description: "Critical architecture commentary and policy insight",
+    description: "Architecture and construction design news and analysis",
     website: "https://www.bdonline.co.uk",
-    rssAvailable: "Yes",
-    category: "technical",
-    trustScore: 86,
-  },
-  {
-    id: "property-week",
-    organisation: "Property Week",
-    description: "Covers commercial/residential property with market, legal, regulatory trends",
-    website: "https://www.propertyweek.com",
+    rssUrl: "https://www.bdonline.co.uk/rss",
     rssAvailable: "Yes",
     category: "secondary",
     trustScore: 84,
   },
   {
-    id: "estates-gazette",
-    organisation: "Estates Gazette (EG)",
-    description: "UK commercial property and built-environment insight and data analysis",
-    website: "https://www.estatesgazette.co.uk",
+    id: "property-week",
+    organisation: "Property Week",
+    description: "Commercial property development and construction market news",
+    website: "https://www.propertyweek.com",
+    rssUrl: "https://www.propertyweek.com/rss",
     rssAvailable: "Yes",
     category: "secondary",
-    trustScore: 85,
+    trustScore: 82,
+  },
+  {
+    id: "estates-gazette",
+    organisation: "Estates Gazette (EG)",
+    description: "Property industry news including development and construction",
+    website: "https://www.estatesgazette.com",
+    rssUrl: "https://www.estatesgazette.com/rss",
+    rssAvailable: "Yes",
+    category: "secondary",
+    trustScore: 81,
   },
   {
     id: "ciob",
@@ -192,13 +208,15 @@ export const constructionSources: Source[] = [
 ]
 
 export function getSourceById(id: string): Source | undefined {
-  return constructionSources.find((source) => source.id === id)
+  return constructionSources.find(source => source.id === id)
 }
 
 export function getSourcesByCategory(category: string): Source[] {
-  return constructionSources.filter((source) => source.category === category)
+  return constructionSources.filter(source => source.category === category)
 }
 
-export function getTrustedSources(): Source[] {
-  return constructionSources.filter((source) => source.trustScore >= 90).sort((a, b) => b.trustScore - a.trustScore)
+export function getSourcesByTrustScore(minScore: number): Source[] {
+  return constructionSources.filter(source => source.trustScore >= minScore)
 }
+
+

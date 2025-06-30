@@ -15,6 +15,7 @@ export interface Article {
   summarizedAt?: string
   summary?: string
   featured?: boolean
+  status?: "pending" | "approved" | "rejected" | "published"
   originalSources?: {
     sourceId: string
     url: string
@@ -29,4 +30,31 @@ export interface ScrapedContent {
   publishedDate: string
   sourceId: string
   imageUrl?: string
+}
+
+export interface ScrapingSession {
+  id: string
+  startTime: string
+  endTime?: string
+  totalSources: number
+  processedSources: number
+  totalArticles: number
+  uniqueArticles: number
+  duplicates: number
+  errors: number
+  status: "running" | "completed" | "failed" | "stopped"
+  articles: Article[]
+}
+
+export interface ScrapingProgress {
+  sessionId: string
+  currentSource?: string
+  currentSourceIndex: number
+  totalSources: number
+  currentArticle?: string
+  currentArticleIndex: number
+  totalArticlesInSource: number
+  message: string
+  timestamp: string
+  type: "info" | "success" | "error" | "warning"
 }

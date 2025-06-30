@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Shield, ExternalLink, Rss } from "lucide-react"
-import { getTrustedSources, getSourcesByCategory } from "@/lib/sources"
+import { getSourcesByTrustScore, getSourcesByCategory } from "@/lib/sources"
 
 export function TrustedSources() {
-  const trustedSources = getTrustedSources()
+  const trustedSources = getSourcesByTrustScore(90).sort((a, b) => b.trustScore - a.trustScore)
   const primarySources = getSourcesByCategory("primary")
   const regulatorySources = getSourcesByCategory("regulatory")
   const technicalSources = getSourcesByCategory("technical")

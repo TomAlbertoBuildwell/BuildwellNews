@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, ExternalLink, Shield, Zap } from "lucide-react"
+import { getCategoryColor, getCategoryIcon, getCategoryPlaceholder } from "@/lib/category-utils"
 import { getSourceById, type Source } from "@/lib/sources"
 
 interface ArticleCardProps {
@@ -13,6 +14,8 @@ interface ArticleCardProps {
   similarity?: number
   relatedSources?: string[]
   featured?: boolean
+  imageUrl?: string
+  url?: string
 }
 
 export function ArticleCard({
@@ -25,6 +28,8 @@ export function ArticleCard({
   similarity = 0,
   relatedSources = [],
   featured = false,
+  imageUrl,
+  url,
 }: ArticleCardProps) {
   const source = getSourceById(sourceId)
   const relatedSourcesData = relatedSources.map((id) => getSourceById(id)).filter(Boolean) as Source[]
@@ -42,15 +47,46 @@ export function ArticleCard({
     return "text-gray-500"
   }
 
+  const handleExternalLink = () => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <Card
       className={`border-0 shadow-md hover:shadow-lg transition-all duration-200 ${featured ? "ring-2 ring-orange-200" : ""}`}
     >
+      {/* Article Image */}
+      {imageUrl && (
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={imageUrl || getCategoryPlaceholder(category)}
+            alt={title}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              e.currentTarget.src = getCategoryPlaceholder(category)
+            }}
+          />
+          {featured && (
+            <div className="absolute top-4 left-4">
+              <Badge className="bg-orange-500 text-white">
+                Featured
+              </Badge>
+            </div>
+          )}
+        </div>
+      )}
+
       <CardContent className="p-6">
         {/* Header with category and trust indicators */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
-            <Badge variant="secondary" className="bg-orange-100 text-orange-700">
+            <Badge 
+              variant="outline" 
+              className={`${getCategoryColor(category)} flex items-center gap-1`}
+            >
+              {getCategoryIcon(category)}
               {category}
             </Badge>
             {source && (
@@ -118,7 +154,13 @@ export function ArticleCard({
             <Clock className="w-4 h-4" />
             <span>{readTime}</span>
           </div>
-          <button className="text-orange-500 hover:text-orange-600 text-sm font-medium">Read More</button>
+          <button 
+            onClick={handleExternalLink}
+            className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-1"
+          >
+            Read More
+            <ExternalLink className="w-3 h-3" />
+          </button>
         </div>
       </CardContent>
     </Card>
