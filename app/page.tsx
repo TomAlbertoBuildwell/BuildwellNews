@@ -8,12 +8,15 @@ import { Newsletter } from "@/components/newsletter"
 import { CategoryFilter } from "@/components/category-filter"
 import { TrustedSources } from "@/components/trusted-sources"
 import { Footer } from "@/components/footer"
+import { PodcastPlayer } from "@/components/podcast-player";
+
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <EnhancedHeader />
       <main>
+        <PodcastPlayer />
         <EnhancedFeaturedStories />
         <EnhancedLatestUpdates />
       </main>

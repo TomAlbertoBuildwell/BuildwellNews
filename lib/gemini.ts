@@ -1,6 +1,34 @@
 import type { ScrapedContent, Article } from "./types"
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from "@google/genai"
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
+
+const safetySettings = [
+  {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+];
+
+const generationConfig = {
+  stopSequences: ["\n\n", "\n\n\n"],
+  maxOutputTokens: 200,
+  temperature: 0.7,
+  topP: 0.9,
+  topK: 40,
+};
 
 // Enhanced demo summaries with more variety and realism
 const demoSummaries = [
@@ -126,11 +154,63 @@ function generateDemoSummary(content: ScrapedContent): { summary: string; catego
   }
 }
 
+async function generateSummary(content: ScrapedContent): Promise<{ summary: string; category: string }> {
+  if (!GEMINI_API_KEY) {
+    console.error("Gemini API key is not configured.");
+    return { summary: "Summarization service unavailable.", category: "general" };
+  }
+
+  const genAI = new GoogleGenAI({apiKey: GEMINI_API_KEY});
+  // const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-001", safetySettings, generationConfig });
+
+  const prompt = `
+  Please summarize the following article and provide a category from the following list: infrastructure, housing, commercial, regulation, technology, safety, environment, planning, general.
+  Do not refer to the article as "the article" or "the content". Do not use the word "article" in your response. Only summarize the content.
+  
+  Respond in JSON format with "summary" and "category" fields.
+  Example: {"summary": "This is a summary.", "category": "infrastructure"}
+
+  Article Title: ${content.title}
+  Article Content: ${content.content}
+  `;
+
+  try {
+    const result = await genAI.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
+    const text = result.text;
+
+    if (!text) {
+      console.error("Gemini API returned an empty response.");
+      return { summary: "Summarization failed: Empty response.", category: "general" };
+    }
+
+    // Extract JSON string from markdown code block
+    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/);
+    let jsonString = text;
+    if (jsonMatch && jsonMatch[1]) {
+      jsonString = jsonMatch[1];
+    }
+
+    const parsedResponse = JSON.parse(jsonString);
+
+    return {
+      summary: parsedResponse.summary,
+      category: parsedResponse.category,
+    };
+  } catch (error) {
+    console.error("Error generating summary with Gemini:", error);
+    return { summary: "Summarization service error.", category: "general" };
+  }
+}
+
+
 export async function summarizeContent(content: ScrapedContent): Promise<Article> {
   const articleId = `${content.sourceId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   
   // Generate summary and category
-  const { summary, category } = generateDemoSummary(content)
+  const { summary, category } = await generateSummary(content)
   
   // Calculate read time (average 200 words per minute)
   const wordCount = content.content.split(/\s+/).length

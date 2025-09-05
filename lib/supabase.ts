@@ -1,9 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://qulninklpaicfdwdprqe.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1bG5pbmtscGFpY2Zkd2RwcnFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg5MTUwMzQsImV4cCI6MjA1NDQ5MTAzNH0.kxrP9q8Z_L1cQYY5BwTLh8it71gP3ZD-OtQmPw-nOz4'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_URL; //'https://qulninklpaicfdwdprqe.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;//'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1bG5pbmtscGFpY2Zkd2RwcnFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg5MTUwMzQsImV4cCI6MjA1NDQ5MTAzNH0.kxrP9q8Z_L1cQYY5BwTLh8it71gP3ZD-OtQmPw-nOz4'
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
+
 
 // Database types
 export interface NewsArticle {

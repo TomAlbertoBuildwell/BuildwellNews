@@ -1,0 +1,13 @@
+{
+    "crons": [
+      {
+        "path": "/api/cron/trigger_podcast",
+        "schedule": "0 7 * * 0"
+      },
+      {
+        "path": "/api/cron/trigger_scrape",
+        "schedule": "0 6 * * 0"
+      }
+    ]
+  }
+  
