@@ -7,6 +7,17 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Bell, Search, Menu, X, Database, Home } from "lucide-react"
 
+// Removed under Home:
+/*<Link 
+href="/scraping" 
+className="flex items-center gap-2 text-gray-700 hover:text-orange-500 transition-colors"
+>
+<Database className="h-4 w-4" />
+Scraping Control
+</Link>
+*/
+
+
 export function EnhancedHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -34,13 +45,6 @@ export function EnhancedHeader() {
               >
                 <Home className="h-4 w-4" />
                 Home
-              </Link>
-              <Link 
-                href="/scraping" 
-                className="flex items-center gap-2 text-gray-700 hover:text-orange-500 transition-colors"
-              >
-                <Database className="h-4 w-4" />
-                Scraping Control
               </Link>
             </nav>
 
